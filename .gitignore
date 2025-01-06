@@ -351,3 +351,9 @@ MigrationBackup/
 
 # Hide distributed files
 lib/
+
+# Specific configurations
+appsettings.*.json
+
+# Hide IntelliJ files
+.idea/
