@@ -1,0 +1,64 @@
+﻿@using ConfluencePOC.Web.Models.Contentful
+@using ConfluencePOC.Web.Models.PageTypes
+@using Contentful.Core.Models
+@model ConfluencePOC.Web.Models.PageTypes.ListingPage
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+@section BeforeGDSContent
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+           <h1 class="govuk-heading-xl">
+              @Model.Title
+           </h1>
+           @if (!string.IsNullOrEmpty(Model.Description))
+           {
+              <p class="govuk-body">@Model.Description</p>
+           }
+        </div>
+    </div>
+}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        @if (Model.ShowEmergency)
+        {
+            <div class="govuk-inset-text app-emergency-callout">
+                <strong class="govuk-tag govuk-tag--red">
+                    EMERGENCY
+                </strong>
+
+                <h2 class="govuk-heading-l">
+                    If it’s an emergency
+                </h2>
+                <p class="govuk-body">If you’re in immediate danger, need urgent help or a crime has happened:</p>
+                <p class="govuk-heading-xl" style="margin-bottom: 15px; margin-top: 15px;">Call 999</p>
+                <p class="govuk-body">If you’re not sure what to do:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>For the Police, <strong>call 101</strong></li>
+                    <li>To get medical help and advice, <strong>call 111</strong></li>
+                </ul>
+            </div>
+        }
+
+        <gds-contentful-contents document="Model.Content" grids="Model.Sections"/>
+
+        @if (Model.Sections != null)
+        {
+            foreach (var grid in Model.Sections)
+            {
+                <partial model="@grid" name="Grid"/>
+            }
+        }
+
+    </div>
+</div>
+
+
+@section AfterGDSContent
+{
+   @{ await Html.RenderPartialAsync("LastUpdated", Model.Sys); }
+}

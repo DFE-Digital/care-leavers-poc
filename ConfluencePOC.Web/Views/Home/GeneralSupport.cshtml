@@ -1,0 +1,75 @@
+﻿@using ConfluencePOC.Web.Models.Contentful
+@using ConfluencePOC.Web.Models.PageTypes
+@using Contentful.Core.Models
+@model ConfluencePOC.Web.Models.PageTypes.GeneralSupportPage
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+@section BeforeGDSContent
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+           <h1 class="govuk-heading-xl">
+              @Model.Title
+           </h1>
+           @if (!string.IsNullOrEmpty(Model.Description))
+           {
+              <p class="govuk-body">@Model.Description</p>
+           }
+        </div>
+    </div>
+}
+<div class="govuk-grid-row">
+   <div class="govuk-grid-column-two-thirds">
+      @if (!string.IsNullOrEmpty(Model.Type))
+      {
+         <span class="govuk-caption-m">@Model.Type</span>
+      }
+      <gds-contentful-contents document="@Model.Content" />
+      <gds-contentful-rich-text document="@Model.Content"/>
+   </div>
+   @if (Model.HeroImage != null || Model.RelatedSupport != null)
+   {
+      <div class="govuk-grid-column-one-third">
+         @if (Model.HeroImage != null)
+         {
+            <gds-contentful-image asset="Model.HeroImage"/>
+         }
+         
+         @if (Model.RelatedSupport != null)
+         {
+            <div class="x-gov-related-navigation">
+               <nav class="x-govuk-related-navigation__nav-section" role="navigation" aria-labelledby="related-navigation-related-content">
+                  <h2 class="x-govuk-related-navigation__main-heading" id="related-navigation-related-content">
+                     Related support
+                  </h2>
+                  <ul class="x-govuk-related-navigation__link-list">
+                     @foreach (var content in Model.RelatedSupport)
+                     {
+                        switch (content)
+                        {
+                           case GeneralSupportPage supportPage:
+                              <li class="x-govuk-related-navigation__link">
+                                 <a class="govuk-link x-govuk-related-navigation__section-link x-govuk-related-navigation__section-link--other" href="@supportPage.Slug">@supportPage.Title</a>
+                              </li>
+                              break;
+                           
+                        }
+                        
+                     }
+                  </ul>
+               </nav>
+            </div>
+         }
+      </div>
+   }
+</div>
+
+
+
+@section AfterGDSContent
+{
+   @{ await Html.RenderPartialAsync("LastUpdated", Model.Sys); }
+}

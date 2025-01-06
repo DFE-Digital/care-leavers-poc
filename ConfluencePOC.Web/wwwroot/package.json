@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@x-govuk/govuk-prototype-components": "^3.0.9",
+    "dfe-frontend": "2.0.1"
+  }
+}

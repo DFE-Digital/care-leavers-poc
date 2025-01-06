@@ -1,0 +1,27 @@
+@using ConfluencePOC.Web.Models.PageTypes
+@model ConfluencePOC.Web.Models.Contentful.Card
+
+@{
+    string link = "";
+
+    switch (Model.Link)
+    {
+        case Homepage h:
+            link = h.Slug;
+            break;
+        case GeneralSupportPage p:
+            link = p.Slug;
+            break;
+    }
+
+    <div class="hf-card">
+        <a href="@link">
+            <div class="hf-card-container">
+                <gds-contentful-image asset="Model.Image" class="full-width-image" title="@Model.Title"/>
+                <div class="cat-card-details">
+                    <h3 class="govuk-heading-m">@Model.Title</h3>
+                </div>
+            </div>
+        </a>
+    </div>
+}

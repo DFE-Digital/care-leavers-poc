@@ -1,0 +1,41 @@
+@using ConfluencePOC.Web.Models.PageTypes
+@model ConfluencePOC.Web.Models.Contentful.Card
+
+@{
+    string link = "";
+
+    switch (Model.Link)
+    {
+        case Homepage h:
+            link = h.Slug;
+            break;
+        case GeneralSupportPage p:
+            link = p.Slug;
+            break;
+    }
+
+
+    <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-5">
+        <div class="govuk-grid-row split-panel" style="background: #f3f2f1; vertical-align: text-top;">
+            @if (Model.Position % 2 == 0)
+            {
+                <div class="govuk-grid-column-one-half image-column">
+                    <a href="@link"><gds-contentful-image asset="Model.Image" class="full-width-image"/></a>
+                </div>
+            }
+            <div class="govuk-grid-column-one-half text-column">
+                <span class="govuk-caption-l">@Model.Types.FirstOrDefault()</span>
+                <h3 class="govuk-heading-l"><a href="@link">@Model.Title</a></h3>
+                <p class="govuk-body">@Model.Text</p>
+                <p class="govuk-!-margin-bottom-0">
+                </p>
+            </div>
+            @if (Model.Position % 2 != 0)
+            {
+                <div class="govuk-grid-column-one-half image-column">
+                    <a href="@link"><gds-contentful-image asset="Model.Image" class="full-width-image"/></a>
+                </div>
+            }
+        </div>
+    </div>
+}
