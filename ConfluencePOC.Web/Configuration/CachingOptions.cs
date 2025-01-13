@@ -3,6 +3,7 @@ namespace ConfluencePOC.Web.Configuration;
 public sealed class CachingOptions
 {
     public const string Name = "Caching";
+    public bool Enabled { get; set; } = true;
     public bool UseRedis { get; set; } = false;
     public string? ConnectionString { get; set; }
     public string? InstanceName { get; set; }

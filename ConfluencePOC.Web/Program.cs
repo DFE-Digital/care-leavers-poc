@@ -44,19 +44,22 @@ cachingOptions?.Validate();
 var translationOptions = builder.Configuration.GetSection(TranslationOptions.Name).Get<TranslationOptions>();
 translationOptions?.Validate();
 
-if (builder.Configuration.Get<CachingOptions>() is { UseRedis: true })
+if (cachingOptions is { Enabled: true })
 {
-    // Add distributed Redis cache
-    builder.Services.AddStackExchangeRedisCache(options =>
+    if (cachingOptions is { UseRedis: true })
     {
-        options.Configuration = builder.Configuration.Get<CachingOptions>()?.ConnectionString;
-        options.InstanceName = builder.Configuration.Get<CachingOptions>()?.InstanceName;
-    });
-}
-else
-{
-    // Use the distributed memory cache in development
-    builder.Services.AddDistributedMemoryCache();
+        // Add distributed Redis cache
+        builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = cachingOptions.ConnectionString;
+            options.InstanceName = cachingOptions.InstanceName;
+        });
+    }
+    else
+    {
+        // Use the distributed memory cache in development
+        builder.Services.AddDistributedMemoryCache();
+    }
 }
 
 // Add Contentful

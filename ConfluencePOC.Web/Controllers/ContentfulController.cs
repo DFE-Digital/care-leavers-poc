@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Globalization;
+using ConfluencePOC.Web.Configuration;
 using ConfluencePOC.Web.Converters;
 using ConfluencePOC.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Contentful.Core;
 using Contentful.Core.Search;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -21,8 +23,9 @@ public abstract class ContentfulController : Controller
     protected readonly IContentfulClient Client;
     protected readonly IDistributedCache Cache;
     protected readonly DistributedCacheEntryOptions Options;
+    protected readonly CachingOptions CachingOptions;
 
-    public ContentfulController(ILogger logger, IContentfulClient client, IDistributedCache cache)
+    public ContentfulController(ILogger logger, IContentfulClient client, IDistributedCache cache, IOptions<CachingOptions> cachingOptions)
     {
         Logger = logger;
         Client = client;
@@ -34,6 +37,8 @@ public abstract class ContentfulController : Controller
         Cache = cache;
         Options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(3));
 
+        CachingOptions = cachingOptions.Value;
+
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -44,15 +49,20 @@ public abstract class ContentfulController : Controller
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        bool bypassCache = context.HttpContext.Request.Query["bypass-cache"] == "true";
+        bool bypassCache = context.HttpContext.Request.Query["bypass-cache"] == "true" || !CachingOptions.Enabled;
         
-        var homepage = Cache.GetOrSetAsync("content:homepage:" + CultureInfo.CurrentCulture.Name,
+        var homepage = Cache.GetOrSetAsync("navigation:homepage:" + CultureInfo.CurrentCulture.Name,
             async () =>
             {
                 var builder = new QueryBuilder<Homepage>().ContentTypeIs(Homepage.ContentType).Include(5).Limit(1);
                 return (await Client.GetEntries(builder)).FirstOrDefault();
             }, Options, bypassCache).GetAwaiter().GetResult();
-        
+
+        if (homepage != null)
+        {
+            Cache.SetAsync($"content:{homepage.Slug}:{CultureInfo.CurrentCulture.Name})", homepage);
+        }
+
         var navigation = Cache.GetOrSetAsync("navigation:header:" + CultureInfo.CurrentCulture.Name,
             async () =>
             {

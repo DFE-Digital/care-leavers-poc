@@ -7,13 +7,15 @@ using Contentful.Core;
 using Contentful.Core.Models;
 using Contentful.Core.Search;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 
 namespace ConfluencePOC.Web.Controllers;
 
 public class HomeController : ContentfulController
 {
     
-    public HomeController(ILogger<HomeController> logger, IContentfulClient client, IDistributedCache cache) : base(logger, client, cache)
+    public HomeController(ILogger<HomeController> logger, IContentfulClient client, IDistributedCache cache, IOptions<CachingOptions> cachingOptions) : 
+        base(logger, client, cache, cachingOptions)
     {
         
     }
@@ -21,9 +23,14 @@ public class HomeController : ContentfulController
     [Route("/{**slug}")]
     public async Task<IActionResult> CatchAll(string slug, [FromQuery(Name = "bypass-cache")] bool bypassCache = false)
     {
+        if (!CachingOptions.Enabled)
+        {
+            bypassCache = true;
+        }
+        
         if (string.IsNullOrEmpty(slug) || slug == Configuration.Options.Homepage)
         {
-            var homepage = await Cache.GetOrSetAsync("content:homepage:" + CultureInfo.CurrentCulture.Name,
+            var homepage = await Cache.GetOrSetAsync($"content:{Configuration.Options.Homepage}:{CultureInfo.CurrentCulture.Name}",
                 async () =>
                 {
                     var builder = new QueryBuilder<Homepage>().ContentTypeIs(Homepage.ContentType).Include(5).Limit(1);
