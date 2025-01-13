@@ -34,7 +34,7 @@ public class HomeController : ContentfulController
             return View("Homepage", homepage);
         }
 
-        var page = await Cache.GetOrSetAsync($"content:{slug}:" + CultureInfo.CurrentCulture.Name,
+        var result = await Cache.GetOrSetAsync($"content:{slug}:" + CultureInfo.CurrentCulture.Name,
             async () =>
             {
                 var generalPages = new QueryBuilder<GeneralSupportPage>()
@@ -47,25 +47,33 @@ public class HomeController : ContentfulController
                     .Include(5)
                     .FieldEquals(c => c.Slug, slug)
                     .Limit(1);
+                var pages = new QueryBuilder<Page>()
+                    .ContentTypeIs(Page.ContentType)
+                    .Include(5)
+                    .FieldEquals(c => c.Slug, slug)
+                    .Limit(1);
 
                 List<ContentfulPage> results = new List<ContentfulPage>();
                 results.AddRange(await Client.GetEntries(generalPages));
                 results.AddRange(await Client.GetEntries(listingPages));
+                results.AddRange(await Client.GetEntries(pages));
                 
                 return results.FirstOrDefault();
             }, Options, bypassCache);
 
-        if (page == null)
+        if (result == null)
         {
             return NotFound();
         }
 
-        switch (page)
+        switch (result)
         {
             case GeneralSupportPage generalSupportPage:
                 return View("GeneralSupport", generalSupportPage);
             case ListingPage listingPage:
                 return View("ListingPage", listingPage);
+            case Page page:
+                return View("Page", page);
             default:
                 return NotFound();
         }

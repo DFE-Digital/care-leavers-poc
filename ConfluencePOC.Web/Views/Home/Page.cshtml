@@ -1,0 +1,58 @@
+@using ConfluencePOC.Web.Models.Contentful
+@using ConfluencePOC.Web.Models.PageTypes
+@using Contentful.Core.Models
+@model ConfluencePOC.Web.Models.PageTypes.Page
+@{
+    ViewData["Title"] = Model.Title;
+
+    string pageWidth = "govuk-grid-column-fullwidth";
+
+    switch (Model.Width)
+    {
+       case ContentfulPage.PageWidth.TwoThirds:
+          pageWidth = "govuk-grid-column-two-thirds"; 
+          break;
+    }
+}
+
+@section BeforeGDSContent
+{
+    <div class="govuk-grid-row">
+        <div class="@pageWidth">
+
+           <h1 class="govuk-heading-xl">
+              @Model.Title
+           </h1>
+           @if (Model.Header != null)
+           {
+              <gds-contentful-rich-text document="@Model.Header"/>
+           }
+        </div>
+    </div>
+}
+<div class="govuk-grid-row">
+   <div class="@pageWidth">
+      @if (Model.Type.HasValue)
+      {
+         <span class="govuk-caption-m">@Model.Type</span>
+      }
+      @if (Model.ShowContentsBlock)
+      {
+         <gds-contentful-contents document="@Model.MainContent" levels="@Model.ContentsHeadings"/>
+      }
+      <gds-contentful-rich-text document="@Model.MainContent"/>
+   </div>
+   @if (Model.SecondaryContent != null && Model.Width != ContentfulPage.PageWidth.FullWidth)
+   {
+      <div class="govuk-grid-column-one-third">
+         <gds-contentful-rich-text document="@Model.SecondaryContent"/>
+      </div>
+   }
+</div>
+
+
+
+@section AfterGDSContent
+{
+   @{ await Html.RenderPartialAsync("LastUpdated", Model.Sys); }
+}

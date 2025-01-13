@@ -12,6 +12,7 @@ public class EntityResolver : IContentTypeResolver
         { Homepage.ContentType, typeof(Homepage) },
         { GeneralSupportPage.ContentType, typeof(GeneralSupportPage) },
         { ListingPage.ContentType, typeof(ListingPage) },
+        { Page.ContentType, typeof(Page) },
 
         // Content
         { Card.ContentType, typeof(Card) },

@@ -1,18 +1,19 @@
 using System.Globalization;
 using System.Text;
+using Azure;
 using ConfluencePOC.Web.Configuration;
-using Google.Cloud.Translation.V2;
+using Azure.AI.Translation.Text;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
 namespace ConfluencePOC.Web.Middleware;
 
-public class GoogleTranslateMiddleware
+public class AzureTranslateMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly TranslationOptions _options;
 
-    public GoogleTranslateMiddleware(RequestDelegate next, IOptions<TranslationOptions> options)
+    public AzureTranslateMiddleware(RequestDelegate next, IOptions<TranslationOptions> options)
     {
         _next = next;
         _options = options.Value;
@@ -45,6 +46,7 @@ public class GoogleTranslateMiddleware
 
                 try
                 {
+                    
                     context.Response.Body = responseBodyStream;
 
                     await _next(context);
@@ -52,15 +54,20 @@ public class GoogleTranslateMiddleware
                     responseBodyStream.Seek(0, SeekOrigin.Begin);
                     var responseBody = new StreamReader(responseBodyStream).ReadToEnd();
                     
-                    // Now send our HTML through to Google
-                    var client = AdvancedTranslationClient.CreateFromApiKey(_options.GoogleApiKey);
+                    // Now send our HTML through to Azure
+                    var translateOptions =
+                        new TextTranslationTranslateOptions(targetLanguage: CultureInfo.CurrentCulture.Name,
+                            responseBody)
+                        {
+                            TextType = TextType.Html
+                        };
+
+                    var client = new TextTranslationClient(new AzureKeyCredential(_options.AzureApiKey));
                     
                     //Modify the response in some way (Example)
-                    var result = await client.TranslateHtmlAsync(
-                        html: responseBody, 
-                        targetLanguage: CultureInfo.CurrentCulture.Name, 
-                        sourceLanguage: "en-GB");
-                    responseBody = result.TranslatedText;
+                    var result = (await client.TranslateAsync(translateOptions)).Value;
+                    var translation = result.FirstOrDefault();
+                    responseBody = translation?.Translations?.FirstOrDefault()?.Text;
 
                     using (var newStream = new MemoryStream())
                     {
@@ -89,10 +96,10 @@ public class GoogleTranslateMiddleware
     }
 }
 
-public static class GoogleTranslateMiddlewareExtensions
+public static class AzureTranslateMiddlewareExtensions
 {
-    public static IApplicationBuilder UseGoogleTranslate(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseAzureTranslate(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<GoogleTranslateMiddleware>();
+        return builder.UseMiddleware<AzureTranslateMiddleware>();
     }
 }
