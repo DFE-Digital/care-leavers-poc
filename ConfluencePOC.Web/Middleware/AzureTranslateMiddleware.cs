@@ -62,7 +62,7 @@ public class AzureTranslateMiddleware
                             TextType = TextType.Html
                         };
 
-                    var client = new TextTranslationClient(new AzureKeyCredential(_options.AzureApiKey));
+                    var client = new TextTranslationClient(new AzureKeyCredential(_options.AzureApiKey), region: "westeurope");
                     
                     //Modify the response in some way (Example)
                     var result = (await client.TranslateAsync(translateOptions)).Value;

@@ -19,10 +19,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddGovUkFrontend();
 builder.Services.AddCsp(nonceByteAmount: 32);
 
+/*
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, true)
+   // .AddJsonFile("appsettings.json", optional: false, true)
     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true,
         reloadOnChange: true);
+*/
 
 // Bind configs
 builder.Services.Configure<CachingOptions>(
@@ -37,9 +39,9 @@ if (homepage != null)
     Options.Homepage = homepage;
 
 // Validate configs
-var cachingOptions = builder.Configuration.Get<CachingOptions>();
+var cachingOptions = builder.Configuration.GetSection(CachingOptions.Name).Get<CachingOptions>();
 cachingOptions?.Validate();
-var translationOptions = builder.Configuration.Get<TranslationOptions>();
+var translationOptions = builder.Configuration.GetSection(TranslationOptions.Name).Get<TranslationOptions>();
 translationOptions?.Validate();
 
 if (builder.Configuration.Get<CachingOptions>() is { UseRedis: true })
@@ -116,8 +118,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-if (builder.Configuration.Get<TranslationOptions>() is { TranslateMethod: TranslationOptions.TranslationMethod.Google })
+if (translationOptions is { Method: TranslationOptions.TranslationMethod.Google })
     app.UseGoogleTranslate();
-if (builder.Configuration.Get<TranslationOptions>() is { TranslateMethod: TranslationOptions.TranslationMethod.Azure })
+if (translationOptions is { Method: TranslationOptions.TranslationMethod.Azure })
     app.UseAzureTranslate();
 app.Run();

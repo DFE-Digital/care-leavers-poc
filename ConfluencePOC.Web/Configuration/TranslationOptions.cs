@@ -1,38 +1,24 @@
 namespace ConfluencePOC.Web.Configuration;
 
-public class TranslationOptions
+public sealed class TranslationOptions
 {
-    public enum TranslationMethod
-    {
-        Azure,
-        Google,
-        None
-    }
-
-    private TranslationMethod _method;
-    
     public const string Name = "Translation";
 
-    public string Method
+    public enum TranslationMethod
     {
-        get
-        {
-            return _method.ToString();
-        }
-        set
-        {
-            Enum.TryParse<TranslationMethod>(value: value, ignoreCase: true, out _method);
-        }
+        None,
+        Azure,
+        Google
     }
 
-    public TranslationMethod TranslateMethod => _method;
+    public TranslationMethod Method { get; set; } = TranslationMethod.None;
 
     public string GoogleApiKey { get; set; } = String.Empty;
     public string AzureApiKey { get; set; } = String.Empty;
 
     public void Validate()
     {
-        switch (_method)
+        switch (Method)
         {
             case TranslationMethod.Azure:
                 if (string.IsNullOrEmpty(AzureApiKey))
