@@ -29,6 +29,9 @@ public class NavigationElement : ContentfulContent
                     case ListingPage listingPage:
                         return listingPage.Slug;
                     
+                    case Page page:
+                        return page.Slug;
+                    
                     default:
                         return string.Empty;
                 }

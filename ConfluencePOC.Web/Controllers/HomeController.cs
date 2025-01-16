@@ -21,51 +21,29 @@ public class HomeController : ContentfulController
     }
 
     [Route("/{**slug}")]
-    public async Task<IActionResult> CatchAll(string slug, [FromQuery(Name = "bypass-cache")] bool bypassCache = false)
+    public async Task<IActionResult> CatchAll(string? slug, [FromQuery(Name = "bypass-cache")] bool bypassCache = false)
     {
         if (!CachingOptions.Enabled)
         {
             bypassCache = true;
         }
-        
-        if (string.IsNullOrEmpty(slug) || slug == Configuration.Options.Homepage)
-        {
-            var homepage = await Cache.GetOrSetAsync($"content:{Configuration.Options.Homepage}:{CultureInfo.CurrentCulture.Name}",
-                async () =>
-                {
-                    var builder = new QueryBuilder<Homepage>().ContentTypeIs(Homepage.ContentType).Include(5).Limit(1);
-                    return (await Client.GetEntries(builder)).FirstOrDefault();
-                }, Options, bypassCache);
-        
-        
-            return View("Homepage", homepage);
-        }
 
-        var result = await Cache.GetOrSetAsync($"content:{slug}:" + CultureInfo.CurrentCulture.Name,
+        if (string.IsNullOrEmpty(slug))
+        {
+            slug = Configuration?.HomePage?.Slug;
+        }
+        
+        var result = await Cache.GetOrSetAsync($"content:{slug}",
             async () =>
             {
-                var generalPages = new QueryBuilder<GeneralSupportPage>()
-                    .ContentTypeIs(GeneralSupportPage.ContentType)
-                    .Include(5)
-                    .FieldEquals(c => c.Slug, slug)
-                    .Limit(1);
-                var listingPages = new QueryBuilder<ListingPage>()
-                    .ContentTypeIs(ListingPage.ContentType)
-                    .Include(5)
-                    .FieldEquals(c => c.Slug, slug)
-                    .Limit(1);
                 var pages = new QueryBuilder<Page>()
                     .ContentTypeIs(Page.ContentType)
                     .Include(5)
                     .FieldEquals(c => c.Slug, slug)
                     .Limit(1);
 
-                List<ContentfulPage> results = new List<ContentfulPage>();
-                results.AddRange(await Client.GetEntries(generalPages));
-                results.AddRange(await Client.GetEntries(listingPages));
-                results.AddRange(await Client.GetEntries(pages));
+                return (await Client.GetEntries(pages)).FirstOrDefault();
                 
-                return results.FirstOrDefault();
             }, Options, bypassCache);
 
         if (result == null)
@@ -73,16 +51,7 @@ public class HomeController : ContentfulController
             return NotFound();
         }
 
-        switch (result)
-        {
-            case GeneralSupportPage generalSupportPage:
-                return View("GeneralSupport", generalSupportPage);
-            case ListingPage listingPage:
-                return View("ListingPage", listingPage);
-            case Page page:
-                return View("Page", page);
-            default:
-                return NotFound();
-        }
+        return View("Page", result);
+        
     }
 }

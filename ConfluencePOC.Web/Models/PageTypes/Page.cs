@@ -45,19 +45,21 @@ public class Page : ContentfulPage
     public PageWidth Width { get; set; } = PageWidth.TwoThirds;
 
     /// <summary>
-    /// The type of this page, if applicable
+    /// The type of this page, if applicable (eg: Guide, Article, Blog Entry, Homepage)
     /// </summary>
     public PageType? Type { get; set; }
 
     /// <summary>
     /// Whether to show a "Contents" block for the main content
     /// </summary>
-    public bool ShowContentsBlock { get; set; } = false;
+    public bool ShowContentsBlock { get; set; } = true;
+
+    public bool ShowLastUpdated { get; set; } = true;
 
     /// <summary>
     /// Which levels of headings to include in the contents list
     /// </summary>
-    public HeadingType[] ContentsHeadings { get; set; } = [];
+    public HeadingType[] ContentsHeadings { get; set; } = [ HeadingType.H2 ];
     
     #endregion
     

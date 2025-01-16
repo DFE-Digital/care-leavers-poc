@@ -50,9 +50,15 @@
    }
 </div>
 
-
+@if (Model.ShowLastUpdated)
+{
+   <partial name="Partials/LastUpdated" model="@Model.Sys"/>
+}
 
 @section AfterGDSContent
 {
-   @{ await Html.RenderPartialAsync("LastUpdated", Model.Sys); }
+   @if (Model.Footer != null)
+   {
+      <gds-contentful-rich-text document="@Model.Footer"/>
+   }
 }

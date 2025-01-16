@@ -64,6 +64,8 @@ public class GDSGridRenderer : IContentRenderer
             grid = (content as EntryStructure).Data.Target as Grid;
         }
         
+        // Render grid component
+        
         switch (grid?.GridType)
         {
             case "Cards":

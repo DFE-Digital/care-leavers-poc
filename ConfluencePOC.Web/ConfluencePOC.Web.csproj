@@ -24,4 +24,8 @@
       <_ContentIncludedByDefault Remove="Views\Partials\Row.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ViewComponents\" />
+    </ItemGroup>
+
 </Project>

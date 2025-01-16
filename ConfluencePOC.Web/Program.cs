@@ -34,10 +34,6 @@ builder.Services.Configure<TranslationOptions>(
     builder.Configuration.GetSection(TranslationOptions.Name)
 );
 
-var homepage = builder.Configuration.GetValue<string>("Homepage");
-if (homepage != null)
-    Options.Homepage = homepage;
-
 // Validate configs
 var cachingOptions = builder.Configuration.GetSection(CachingOptions.Name).Get<CachingOptions>();
 cachingOptions?.Validate();

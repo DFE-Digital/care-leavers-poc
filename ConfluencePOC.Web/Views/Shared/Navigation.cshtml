@@ -2,7 +2,7 @@
 @{
     var currentLink = ViewContext.RouteData.Values["slug"]?.ToString();
     if (string.IsNullOrEmpty(currentLink))
-        currentLink = Options.Homepage;
+        currentLink = ViewBag.Homepage;
 }
 
 @if (ViewBag.Navigation != null)

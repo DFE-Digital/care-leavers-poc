@@ -24,6 +24,7 @@ public abstract class ContentfulController : Controller
     protected readonly IDistributedCache Cache;
     protected readonly DistributedCacheEntryOptions Options;
     protected readonly CachingOptions CachingOptions;
+    protected Models.Contentful.Configuration Configuration;
 
     public ContentfulController(ILogger logger, IContentfulClient client, IDistributedCache cache, IOptions<CachingOptions> cachingOptions)
     {
@@ -51,26 +52,27 @@ public abstract class ContentfulController : Controller
     {
         bool bypassCache = context.HttpContext.Request.Query["bypass-cache"] == "true" || !CachingOptions.Enabled;
         
-        var homepage = Cache.GetOrSetAsync("navigation:homepage:" + CultureInfo.CurrentCulture.Name,
+        var configuration = Cache.GetOrSetAsync("configuration",
             async () =>
             {
-                var builder = new QueryBuilder<Homepage>().ContentTypeIs(Homepage.ContentType).Include(5).Limit(1);
+                var builder = new QueryBuilder<Models.Contentful.Configuration>().ContentTypeIs(Models.Contentful.Configuration.ContentType).Include(5).Limit(1);
                 return (await Client.GetEntries(builder)).FirstOrDefault();
             }, Options, bypassCache).GetAwaiter().GetResult();
+        
 
-        if (homepage != null)
-        {
-            Cache.SetAsync($"content:{homepage.Slug}:{CultureInfo.CurrentCulture.Name})", homepage);
-        }
-
-        var navigation = Cache.GetOrSetAsync("navigation:header:" + CultureInfo.CurrentCulture.Name,
+        var navigation = Cache.GetOrSetAsync("navigation",
             async () =>
             {
-                var links = homepage.Navigation.Select(link => new Link() { Slug = link.Slug, Title = link.Title }).ToList();
+                var links = configuration.Navigation.Select(link => new Link() { Slug = link.Slug, Title = link.Title }).ToList();
                 return links;
             }, Options, bypassCache).GetAwaiter().GetResult();
         
-        ViewBag.Navigation = new Navigation() { Links = navigation };;
+        ViewBag.Navigation = new Navigation() { Links = navigation ?? [] };;
+        ViewBag.Homepage = configuration?.HomePage?.Slug;
+        
+        Cache.SetString("homepage", configuration?.HomePage?.Slug ?? string.Empty);
+
+        Configuration = configuration;
         
         base.OnActionExecuting(context);
     }

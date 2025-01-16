@@ -8,6 +8,10 @@ public class EntityResolver : IContentTypeResolver
 {
     public Dictionary<string, Type> _types = new Dictionary<string, Type>()
     {
+        // Configuration
+        { Models.Contentful.Configuration.ContentType, typeof(Models.Contentful.Configuration) },
+        { NavigationElement.ContentType, typeof(NavigationElement) },
+
         // Pages
         { Homepage.ContentType, typeof(Homepage) },
         { GeneralSupportPage.ContentType, typeof(GeneralSupportPage) },
@@ -18,7 +22,6 @@ public class EntityResolver : IContentTypeResolver
         { Card.ContentType, typeof(Card) },
         { ExternalAgency.ContentType, typeof(ExternalAgency) },
         { Grid.ContentType, typeof(Grid) },
-        { NavigationElement.ContentType, typeof(NavigationElement) },
         { Row.ContentType, typeof(Row) },
         { RowContent.ContentType, typeof(RowContent) },
         

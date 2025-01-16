@@ -36,9 +36,8 @@ public class ContentfulPage : IContent
 
     public enum HeadingType
     {
-        [Obsolete("Only use H3 and below", true)]
+        [Obsolete("Only use H2 and below", true)]
         H1,
-        [Obsolete("Only use H3 and below", true)]
         H2,
         H3,
         H4,
