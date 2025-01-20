@@ -36,7 +36,7 @@ public abstract class ContentfulController : Controller
         Client.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
         Cache = cache;
-        Options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(3));
+        Options = new DistributedCacheEntryOptions().SetSlidingExpiration(cachingOptions.Value.Duration);
 
         CachingOptions = cachingOptions.Value;
 
