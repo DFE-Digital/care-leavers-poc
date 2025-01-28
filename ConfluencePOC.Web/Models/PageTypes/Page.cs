@@ -1,3 +1,4 @@
+using ConfluencePOC.Web.Enums;
 using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.PageTypes;
@@ -54,7 +55,15 @@ public class Page : ContentfulPage
     /// </summary>
     public bool ShowContentsBlock { get; set; } = true;
 
+    /// <summary>
+    /// Whether to show the last published time at hte bottom of the page, before the footers
+    /// </summary>
     public bool ShowLastUpdated { get; set; } = true;
+
+    /// <summary>
+    /// Whether to show the "Footer" before the main site footer
+    /// </summary>
+    public bool ShowFooter { get; set; } = true;
 
     /// <summary>
     /// Which levels of headings to include in the contents list
@@ -65,13 +74,20 @@ public class Page : ContentfulPage
     
     #region Content
     
+    /// <summary>
+    /// The content that shows above the main body, but below the navigation
+    /// </summary>
     public Document? Header { get; set; }
     
+    /// <summary>
+    /// The main body of content
+    /// </summary>
     public Document? MainContent { get; set; }
     
+    /// <summary>
+    /// The right hand body of content in two-thirds width pages
+    /// </summary>
     public Document? SecondaryContent { get; set; }
-    
-    public Document? Footer { get; set; }
     
     #endregion
     

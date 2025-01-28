@@ -1,3 +1,4 @@
+using ConfluencePOC.Web.Enums;
 using ConfluencePOC.Web.Models.Contentful;
 using ConfluencePOC.Web.Models.PageTypes;
 using Contentful.Core.Models;
@@ -13,13 +14,7 @@ public class GDSCardRenderer : IContentRenderer
 {
     private readonly ContentRendererCollection _rendererCollection;
 
-    public enum CardType
-    {
-        Card,
-        AlternatingImageAndText
-    }
-
-    public CardType Type { get; set; } = CardType.Card;
+    public GridType Type { get; set; } = GridType.Cards;
 
 
     /// <summary>
@@ -46,7 +41,7 @@ public class GDSCardRenderer : IContentRenderer
         if (content is EntryStructure)
         {
             var structure = content as EntryStructure;
-            if (structure.NodeType == "embedded-entry-block")
+            if (structure?.NodeType == "embedded-entry-block")
             {
                 if (structure.Data.Target is Card)
                     return true;
@@ -77,10 +72,7 @@ public class GDSCardRenderer : IContentRenderer
 
         switch (card.Link)
         {
-            case Homepage h:
-                link = h.Slug;
-                break;
-            case GeneralSupportPage p:
+            case Page p:
                 link = p.Slug;
                 break;
         }

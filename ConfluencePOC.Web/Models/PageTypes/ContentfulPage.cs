@@ -20,29 +20,4 @@ public class ContentfulPage : IContent
     
     public DateTime Fetched { get; set; } = DateTime.Now;
     
-    public enum PageType
-    {
-        Guide,
-        Advice
-    }
-
-    public enum PageWidth
-    {
-        [EnumMember(Value = "Two Thirds")]
-        TwoThirds,
-        [EnumMember(Value = "Full Width")]
-        FullWidth
-    }
-
-    public enum HeadingType
-    {
-        [Obsolete("Only use H2 and below", true)]
-        H1,
-        H2,
-        H3,
-        H4,
-        H5,
-        H6
-    }
-
 }

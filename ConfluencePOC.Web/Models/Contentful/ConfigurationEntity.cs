@@ -1,8 +1,9 @@
 using ConfluencePOC.Web.Models.PageTypes;
+using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.Contentful;
 
-public class Configuration : ContentfulContent
+public class ConfigurationEntity : ContentfulContent
 {
     public enum BannerPhase
     {
@@ -21,5 +22,7 @@ public class Configuration : ContentfulContent
     public Page? HomePage { get; set; }
     
     public List<NavigationElement>? Navigation { get; set; }
+    
+    public Document? Footer { get; set; }
 
 }

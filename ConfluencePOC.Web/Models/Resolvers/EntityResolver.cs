@@ -9,21 +9,22 @@ public class EntityResolver : IContentTypeResolver
     public Dictionary<string, Type> _types = new Dictionary<string, Type>()
     {
         // Configuration
-        { Models.Contentful.Configuration.ContentType, typeof(Models.Contentful.Configuration) },
+        { ConfigurationEntity.ContentType, typeof(ConfigurationEntity) },
         { NavigationElement.ContentType, typeof(NavigationElement) },
 
         // Pages
-        { Homepage.ContentType, typeof(Homepage) },
-        { GeneralSupportPage.ContentType, typeof(GeneralSupportPage) },
-        { ListingPage.ContentType, typeof(ListingPage) },
         { Page.ContentType, typeof(Page) },
 
         // Content
+        { CallToAction.ContentType, typeof(CallToAction) },
         { Card.ContentType, typeof(Card) },
+        { DefinitionBlock.ContentType, typeof(DefinitionBlock) },
+        { DefinitionContent.ContentType, typeof(DefinitionContent) },
+        { DefinitionLink.ContentType, typeof(DefinitionLink) },
         { ExternalAgency.ContentType, typeof(ExternalAgency) },
         { Grid.ContentType, typeof(Grid) },
-        { Row.ContentType, typeof(Row) },
-        { RowContent.ContentType, typeof(RowContent) },
+        { RichContent.ContentType, typeof(RichContent) },
+        { RichContentBlock.ContentType, typeof(RichContentBlock) },
         
     };
 

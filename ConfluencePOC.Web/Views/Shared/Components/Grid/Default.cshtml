@@ -1,3 +1,4 @@
+@using ConfluencePOC.Web.Enums
 @using ConfluencePOC.Web.Models.Contentful
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ConfluencePOC.Web.Models.Contentful.Grid
@@ -5,7 +6,7 @@
 @{
     switch (Model.GridType)
     {
-        case "Cards":
+        case GridType.Cards:
             <div class="@Model.CssClass">
                 <section class="dfe-section govuk-!-margin-top-5">
                     <div class="govuk-width-container">
@@ -28,7 +29,7 @@
             </div>
             break;
 
-        case "Alternating Image and Text":
+        case GridType.AlternatingImageAndText:
             <div class="@Model.CssClass">
                 @if (Model.ShowTitle)
                 {
@@ -50,7 +51,7 @@
             </div>
             break;
             
-        case "External Links":
+        case GridType.ExternalLinks:
             @if (Model.ShowTitle)
             {
                 <h2 class="govuk-heading-l" id="@TagBuilder.CreateSanitizedId(Model.Title, "-")">@Model.Title</h2>

@@ -1,18 +1,7 @@
-@using ConfluencePOC.Web.Models.PageTypes
 @model ConfluencePOC.Web.Models.Contentful.Card
 
 @{
-    string? link = "";
-
-    switch (Model.Link)
-    {
-        case Homepage h:
-            link = h.Slug;
-            break;
-        case GeneralSupportPage p:
-            link = p.Slug;
-            break;
-    }
+    string link = Model.Link?.Slug ?? string.Empty;
 
     <div class="hf-card">
         <a href="@link">

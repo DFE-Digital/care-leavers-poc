@@ -61,15 +61,7 @@ public class GDSEntityLinkContentRenderer : IContentRenderer
         tb.AddCssClass("govuk-hyperlink");
         switch (link.Data.Target)
         {
-            case Homepage h:
-                tb.Attributes["href"] = h.Slug;
-                foreach (var subContent in link.Content)
-                {
-                    var renderer = _rendererCollection.GetRendererForContent(subContent);
-                    tb.InnerHtml.AppendHtml(await renderer.RenderAsync(subContent));
-                }
-                break;
-            case GeneralSupportPage p:
+            case Page p:
                 tb.Attributes["href"] = p.Slug;
                 foreach (var subContent in link.Content)
                 {

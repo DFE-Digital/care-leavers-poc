@@ -24,7 +24,7 @@ public abstract class ContentfulController : Controller
     protected readonly IDistributedCache Cache;
     protected readonly DistributedCacheEntryOptions Options;
     protected readonly CachingOptions CachingOptions;
-    protected Models.Contentful.Configuration Configuration;
+    protected Models.Contentful.ConfigurationEntity Configuration;
 
     public ContentfulController(ILogger logger, IContentfulClient client, IDistributedCache cache, IOptions<CachingOptions> cachingOptions)
     {
@@ -55,7 +55,7 @@ public abstract class ContentfulController : Controller
         var configuration = Cache.GetOrSetAsync("configuration",
             async () =>
             {
-                var builder = new QueryBuilder<Models.Contentful.Configuration>().ContentTypeIs(Models.Contentful.Configuration.ContentType).Include(5).Limit(1);
+                var builder = new QueryBuilder<Models.Contentful.ConfigurationEntity>().ContentTypeIs(Models.Contentful.ConfigurationEntity.ContentType).Include(5).Limit(1);
                 return (await Client.GetEntries(builder)).FirstOrDefault();
             }, Options, bypassCache).GetAwaiter().GetResult();
         
@@ -69,6 +69,7 @@ public abstract class ContentfulController : Controller
         
         ViewBag.Navigation = new Navigation() { Links = navigation ?? [] };;
         ViewBag.Homepage = configuration?.HomePage?.Slug;
+        ViewBag.Footer = configuration?.Footer;
         
         Cache.SetString("homepage", configuration?.HomePage?.Slug ?? string.Empty);
 

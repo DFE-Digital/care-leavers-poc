@@ -1,4 +1,5 @@
 
+using ConfluencePOC.Web.Models.PageTypes;
 using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.Contentful;
@@ -13,7 +14,7 @@ public class Card : ContentfulContent
     
     public Asset? Image { get; set; }
     
-    public IContent? Link { get; set; }
+    public Page? Link { get; set; }
     
     public List<string> Types { get; set; }
 

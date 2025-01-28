@@ -1,3 +1,4 @@
+using ConfluencePOC.Web.Enums;
 using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.Contentful;
@@ -8,7 +9,7 @@ public class Grid : ContentfulContent
     
     public string? Title { get; set; }
     
-    public string? GridType { get; set; }
+    public GridType? GridType { get; set; }
     
     public bool ShowTitle { get; set; }
     

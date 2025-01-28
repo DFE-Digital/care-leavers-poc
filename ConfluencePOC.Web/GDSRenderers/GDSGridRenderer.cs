@@ -1,8 +1,12 @@
 using System.Text;
+using ConfluencePOC.Web.Components;
+using ConfluencePOC.Web.Enums;
 using ConfluencePOC.Web.Models.Contentful;
 using Contentful.Core.Models;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using HtmlRenderer = Microsoft.AspNetCore.Components.Web.HtmlRenderer;
 
 namespace ConfluencePOC.Web.GDSRenderers;
 
@@ -64,12 +68,10 @@ public class GDSGridRenderer : IContentRenderer
             grid = (content as EntryStructure).Data.Target as Grid;
         }
         
-        // Render grid component
-        
         switch (grid?.GridType)
         {
-            case "Cards":
-            case "Alternating Image and Text":
+            case GridType.Cards:
+            case GridType.AlternatingImageAndText:
 
                 var section = new TagBuilder("section");
                 section.AddCssClass("dfe-section govuk-!-margin-top-5");
@@ -102,9 +104,7 @@ public class GDSGridRenderer : IContentRenderer
                         position++;
                         GDSCardRenderer renderer =
                             (GDSCardRenderer)_rendererCollection.GetRendererForContent(subContent);
-                        renderer.Type = grid.GridType == "Alternating Image and Text"
-                            ? GDSCardRenderer.CardType.AlternatingImageAndText
-                            : GDSCardRenderer.CardType.Card;
+                        renderer.Type = grid.GridType.GetValueOrDefault(GridType.Cards);
 
                         subContent.Position = position;
                         container.InnerHtml.AppendHtml(await renderer.RenderAsync(subContent));
@@ -117,7 +117,7 @@ public class GDSGridRenderer : IContentRenderer
 
                 return section.ToHtmlString();
 
-            case "External Links":
+            case GridType.ExternalLinks:
                 StringBuilder sb = new StringBuilder();
 
                 var h2 = new TagBuilder("h2");

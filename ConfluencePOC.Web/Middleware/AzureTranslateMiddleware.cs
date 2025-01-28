@@ -51,7 +51,7 @@ public class AzureTranslateMiddleware
                 slug = cache.GetString("homepage");
             }
 
-            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName != "en")
+            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName != "en" && slug != null)
             {
                 // We need to go and attempt to fetch the translation for the page
                 // from either the cache, or from Google Translate

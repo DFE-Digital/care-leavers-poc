@@ -1,6 +1,5 @@
-@using ConfluencePOC.Web.Models.Contentful
-@using ConfluencePOC.Web.Models.PageTypes
-@using Contentful.Core.Models
+@using ConfluencePOC.Web.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ConfluencePOC.Web.Models.PageTypes.Page
 @{
     ViewData["Title"] = Model.Title;
@@ -9,7 +8,7 @@
 
     switch (Model.Width)
     {
-       case ContentfulPage.PageWidth.TwoThirds:
+       case PageWidth.TwoThirds:
           pageWidth = "govuk-grid-column-two-thirds"; 
           break;
     }
@@ -42,7 +41,7 @@
       }
       <gds-contentful-rich-text document="@Model.MainContent"/>
    </div>
-   @if (Model.SecondaryContent != null && Model.Width != ContentfulPage.PageWidth.FullWidth)
+   @if (Model.SecondaryContent != null && Model.Width != PageWidth.FullWidth)
    {
       <div class="govuk-grid-column-one-third">
          <gds-contentful-rich-text document="@Model.SecondaryContent"/>
@@ -57,8 +56,8 @@
 
 @section AfterGDSContent
 {
-   @if (Model.Footer != null)
+   @if (Model.ShowFooter && ViewBag.Footer != null)
    {
-      <gds-contentful-rich-text document="@Model.Footer"/>
+      <gds-contentful-rich-text document="@ViewBag.Footer"/>
    }
 }
