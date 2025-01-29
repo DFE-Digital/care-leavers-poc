@@ -1,3 +1,4 @@
+using ConfluencePOC.Web.Enums;
 using ConfluencePOC.Web.Models.Contentful;
 using Contentful.Core.Models;
 using HtmlAgilityPack;
@@ -18,7 +19,7 @@ public class GDSContentfulContentsTagHelper : TagHelper
     
     public List<Grid>? Grids { get; set; }
 
-    public string Levels { get; set; } = "2";
+    public HeadingType[] Levels { get; set; } = [HeadingType.H2];
     
     public GDSContentfulContentsTagHelper(HtmlRenderer renderer)
     {
@@ -40,9 +41,9 @@ public class GDSContentfulContentsTagHelper : TagHelper
 
         var headingsList = new List<string>();
         
-        foreach (var level in Levels.Split(",", StringSplitOptions.RemoveEmptyEntries))
+        foreach (var level in Levels)
         {
-            headingsList.Add("self::h" + level);
+            headingsList.Add("self::" + level.ToString().ToLower());
         }
         
         // Get our list of heading tags with IDs and their text
