@@ -1,18 +1,15 @@
 using System.Diagnostics;
-using System.Globalization;
 using ConfluencePOC.Web.Configuration;
 using ConfluencePOC.Web.Converters;
 using ConfluencePOC.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ConfluencePOC.Web.Models;
-using ConfluencePOC.Web.Models.PageTypes;
 using ConfluencePOC.Web.Models.Resolvers;
 using Contentful.Core;
 using Contentful.Core.Search;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace ConfluencePOC.Web.Controllers;

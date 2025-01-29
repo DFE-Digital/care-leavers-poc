@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace ConfluencePOC.Web.Models;
 
 public class Navigation

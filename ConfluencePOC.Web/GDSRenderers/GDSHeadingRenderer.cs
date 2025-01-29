@@ -1,13 +1,9 @@
 using Contentful.AspNetCore.Authoring;
-using Contentful.Core;
-using Contentful.Core.Extensions;
 using Contentful.Core.Models;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ConfluencePOC.Web.GDSRenderers
 {

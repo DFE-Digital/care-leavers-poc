@@ -1,4 +1,3 @@
-using ConfluencePOC.Web.Models.Contentful;
 using ConfluencePOC.Web.Models.PageTypes;
 using Contentful.AspNetCore.Authoring;
 using Contentful.Core.Models;

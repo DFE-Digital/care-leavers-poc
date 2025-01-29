@@ -1,6 +1,4 @@
 using ConfluencePOC.Web.Models.PageTypes;
-using Contentful.Core.Models;
-using Newtonsoft.Json;
 
 namespace ConfluencePOC.Web.Models.Contentful;
 

@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text;
 using ConfluencePOC.Web.Configuration;
 using ConfluencePOC.Web.Extensions;
 using Google.Cloud.Translation.V2;

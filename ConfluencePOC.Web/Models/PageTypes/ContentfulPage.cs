@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.PageTypes;

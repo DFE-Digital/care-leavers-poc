@@ -1,4 +1,3 @@
-using Contentful.Core.Configuration;
 using Contentful.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

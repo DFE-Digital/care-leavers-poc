@@ -1,6 +1,4 @@
 
-using Contentful.Core.Models;
-
 namespace ConfluencePOC.Web.Models.Contentful;
 
 public class RichContentBlock : ContentfulContent

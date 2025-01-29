@@ -1,10 +1,8 @@
-using System.Globalization;
 using ConfluencePOC.Web.Configuration;
 using ConfluencePOC.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ConfluencePOC.Web.Models.PageTypes;
 using Contentful.Core;
-using Contentful.Core.Models;
 using Contentful.Core.Search;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;

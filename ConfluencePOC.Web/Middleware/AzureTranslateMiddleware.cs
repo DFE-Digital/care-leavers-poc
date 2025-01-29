@@ -1,9 +1,7 @@
 using System.Globalization;
-using System.Text;
 using Azure;
 using ConfluencePOC.Web.Configuration;
 using Azure.AI.Translation.Text;
-using ConfluencePOC.Web.Controllers;
 using ConfluencePOC.Web.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;

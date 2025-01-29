@@ -1,7 +1,5 @@
 using ConfluencePOC.Web.Models.Contentful;
-using Contentful.AspNetCore.TagHelpers;
 using Contentful.Core.Models;
-using GovUk.Frontend.AspNetCore;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;

@@ -1,6 +1,5 @@
 using Contentful.AspNetCore.TagHelpers;
 using Contentful.Core;
-using Contentful.Core.Models;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace ConfluencePOC.Web.TagHelpers;
