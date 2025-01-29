@@ -10,6 +10,8 @@ using Contentful.Core.Configuration;
 using Contentful.Core.Models;
 using GovUk.Frontend.AspNetCore;
 using Joonasw.AspNetCore.SecurityHeaders;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,17 +74,15 @@ builder.Services.AddTransient<HtmlRenderer>((c) => {
     });
     
     // Add custom GDS renderer
-    renderer.AddRenderer(new GDSAssetRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSAssetHyperlinkRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSHeadingRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSHorizontalRulerContentRenderer());
-    renderer.AddRenderer(new GDSHyperlinkContentRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSListContentRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSParagraphRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSEntityLinkContentRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSGridRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSCardRenderer(renderer.Renderers));
-    renderer.AddRenderer(new GDSExternalAgencyRenderer(renderer.Renderers));
+    renderer.AddRenderer(new GDSAssetRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSAssetHyperlinkRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSHeadingRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSHorizontalRulerContentRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSHyperlinkContentRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSListContentRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSEntityLinkContentRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSParagraphRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSGridRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
     
     return renderer;
 });

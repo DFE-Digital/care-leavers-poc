@@ -22,10 +22,27 @@
       <_ContentIncludedByDefault Remove="Views\Partials\ExternalAgency.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Partials\Grid.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Partials\Row.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Grid\AlternatingImageAndText.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Grid\Card.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Grid\ExternalAgency.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Grid\Grid.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Partials\Grid\AlternatingImageAndText.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Partials\Grid\Card.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Partials\Grid\ExternalAgency.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Partials\Grid\Grid.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="ViewComponents\" />
+      <Folder Include="Views\Shared\Definition\" />
+      <Folder Include="Views\Shared\RichContent\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Shared\Grid\AlternatingImageAndText.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Grid\Card.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Grid\ExternalAgency.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Grid\Grid.cshtml" />
     </ItemGroup>
 
 </Project>

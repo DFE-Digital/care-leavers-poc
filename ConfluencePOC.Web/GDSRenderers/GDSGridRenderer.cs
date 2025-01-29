@@ -1,10 +1,16 @@
 using System.Text;
 using ConfluencePOC.Web.Components;
 using ConfluencePOC.Web.Enums;
+using ConfluencePOC.Web.Extensions;
 using ConfluencePOC.Web.Models.Contentful;
+using Contentful.AspNetCore.Authoring;
 using Contentful.Core.Models;
 using GovUk.Frontend.AspNetCore;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using HtmlRenderer = Microsoft.AspNetCore.Components.Web.HtmlRenderer;
 
@@ -13,30 +19,23 @@ namespace ConfluencePOC.Web.GDSRenderers;
 /// <summary>
 /// A renderer for a paragraph.
 /// </summary>
-public class GDSGridRenderer : IContentRenderer
+public class GDSGridRenderer : RazorContentRenderer
 {
     private readonly ContentRendererCollection _rendererCollection;
 
-    /// <summary>
-    /// Initializes a new PragraphRenderer
-    /// </summary>
-    /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-    public GDSGridRenderer(ContentRendererCollection rendererCollection)
+
+    public GDSGridRenderer(IRazorViewEngine razorViewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider, ContentRendererCollection rendererCollection) : base(razorViewEngine, tempDataProvider, serviceProvider)
     {
         _rendererCollection = rendererCollection;
+        Order = 10;
     }
-
-    /// <summary>
-    /// The order of this renderer in the collection.
-    /// </summary>
-    public int Order { get; set; } = 10;
 
     /// <summary>
     /// Whether or not this renderer supports the provided content.
     /// </summary>
     /// <param name="content">The content to evaluate.</param>
     /// <returns>Returns true if the content is a paragraph, otherwise false.</returns>
-    public bool SupportsContent(IContent content)
+    public override bool SupportsContent(IContent content)
     {
         if (content is EntryStructure)
         {
@@ -51,12 +50,19 @@ public class GDSGridRenderer : IContentRenderer
         return content is Grid;
     }
 
+    public override string Render(IContent content)
+    {
+        var result = RenderAsync(content);
+        result.Wait();
+        return result.Result;
+    }
+
     /// <summary>
     /// Renders the content to an html p-tag.
     /// </summary>
     /// <param name="content">The content to render.</param>
     /// <returns>The p-tag as a string.</returns>
-    public async Task<string> RenderAsync(IContent content)
+    public override Task<string> RenderAsync(IContent content)
     {
         Grid grid;
         if (content is Grid)
@@ -67,7 +73,10 @@ public class GDSGridRenderer : IContentRenderer
         {
             grid = (content as EntryStructure).Data.Target as Grid;
         }
+
+        return RenderToString("Grid/Grid", grid);
         
+        /*
         switch (grid?.GridType)
         {
             case GridType.Cards:
@@ -115,7 +124,7 @@ public class GDSGridRenderer : IContentRenderer
 
                 section.InnerHtml.AppendHtml(innerDiv);
 
-                return section.ToHtmlString();
+                return Task.FromResult(section.ToHtmlString());
 
             case GridType.ExternalLinks:
                 StringBuilder sb = new StringBuilder();
@@ -140,9 +149,11 @@ public class GDSGridRenderer : IContentRenderer
                     }
                 }
 
-                return sb.ToString();
+                return Task.FromResult(sb.ToString());
         }
 
-        return String.Empty;
+        return Task.FromResult(String.Empty);
+        
+        */
     }
 }

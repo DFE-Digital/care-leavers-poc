@@ -20,7 +20,7 @@
                                 @foreach (var content in Model.Content)
                                 {
                                     var card = (Card)content;
-                                    <partial model="@card" name="Card"/>
+                                    <partial model="@card" name="Grid/Card"/>
                                 }
                             </div>
                         }
@@ -45,7 +45,7 @@
                         position++;
                         var card = (Card)content;
                         card.Position = position;
-                        <partial model="@card" name="AlternatingImageAndText"/>
+                        <partial model="@card" name="Grid/AlternatingImageAndText"/>
                     }
                 }
             </div>
@@ -61,7 +61,7 @@
                 @foreach (var content in Model.Content)
                 {
                     var externalAgency = (ExternalAgency)content;
-                    <partial model="@externalAgency" name="ExternalAgency"/>
+                    <partial model="@externalAgency" name="Grid/ExternalAgency"/>
                 }
             }
             break;

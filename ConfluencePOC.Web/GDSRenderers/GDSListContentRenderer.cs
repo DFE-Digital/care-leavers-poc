@@ -1,13 +1,16 @@
+using Contentful.AspNetCore.Authoring;
 using Contentful.Core.Models;
 using GovUk.Frontend.AspNetCore;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ConfluencePOC.Web.GDSRenderers;
 
 /// <summary>
 /// A renderer for a list.
 /// </summary>
-public class GDSListContentRenderer : IContentRenderer
+public class GDSListContentRenderer : RazorContentRenderer
 {
     private readonly ContentRendererCollection _rendererCollection;
 
@@ -15,24 +18,26 @@ public class GDSListContentRenderer : IContentRenderer
     /// Initializes a new ListContentRenderer.
     /// </summary>
     /// <param name="rendererCollection">The collection of renderer to use for sub-content.</param>
-    public GDSListContentRenderer(ContentRendererCollection rendererCollection)
+    public GDSListContentRenderer(IRazorViewEngine razorViewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider, ContentRendererCollection rendererCollection) : base(razorViewEngine, tempDataProvider, serviceProvider)
     {
         _rendererCollection = rendererCollection;
     }
-
-    /// <summary>
-    /// The order of this renderer in the collection.
-    /// </summary>
-    public int Order { get; set; } = 10;
 
     /// <summary>
     /// Whether or not this renderer supports the provided content.
     /// </summary>
     /// <param name="content">The content to evaluate.</param>
     /// <returns>Returns true if the content is a list, otherwise false.</returns>
-    public bool SupportsContent(IContent content)
+    public override bool SupportsContent(IContent content)
     {
         return content is List;
+    }
+    
+    public override string Render(IContent content)
+    {
+        var result = RenderAsync(content);
+        result.Wait();
+        return result.Result;
     }
 
     /// <summary>
@@ -40,7 +45,7 @@ public class GDSListContentRenderer : IContentRenderer
     /// </summary>
     /// <param name="content">The content to render.</param>
     /// <returns>The list as a ul or ol HTML string.</returns>
-    public async Task<string> RenderAsync(IContent content)
+    public override async Task<string> RenderAsync(IContent content)
     {
         var list = content as List;
         var listTagType = "ul";
