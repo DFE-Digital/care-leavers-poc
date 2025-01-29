@@ -65,7 +65,9 @@ public abstract class ContentfulController : Controller
             }, Options, bypassCache).GetAwaiter().GetResult();
         
         ViewBag.Navigation = new Navigation() { Links = navigation ?? [] };;
+        ViewBag.Phase = configuration?.Phase;
         ViewBag.Homepage = configuration?.HomePage?.Slug;
+        ViewBag.ServiceName = configuration?.ServiceName;
         ViewBag.Footer = configuration?.Footer;
         
         Cache.SetString("homepage", configuration?.HomePage?.Slug ?? string.Empty);

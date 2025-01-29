@@ -81,6 +81,8 @@ builder.Services.AddTransient<HtmlRenderer>((c) => {
     renderer.AddRenderer(new GDSEntityLinkContentRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
     renderer.AddRenderer(new GDSParagraphRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
     renderer.AddRenderer(new GDSGridRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSRichContentBlockRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
+    renderer.AddRenderer(new GDSCallToActionRenderer(c.GetService<IRazorViewEngine>(), c.GetService<ITempDataProvider>(), c, renderer.Renderers) { Order = 10 });
     
     return renderer;
 });

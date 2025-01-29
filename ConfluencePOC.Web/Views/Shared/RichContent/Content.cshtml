@@ -1,0 +1,46 @@
+@using ConfluencePOC.Web.Enums
+@model ConfluencePOC.Web.Models.Contentful.RichContent
+@{
+    string color = "";
+    switch (Model.Background)
+    {
+        case BackgroundColour.Blue:
+        case BackgroundColour.Green:
+        case BackgroundColour.Grey:
+            color = "dfe box-ext";
+            break;
+    }
+
+    string width = "govuk-grid-column-full";
+    switch (Model.Width)
+    {
+        case ContentWidth.OneThird:
+            width = "govuk-grid-column-one-third";
+            break;
+        case ContentWidth.TwoThirds:
+            width = "govuk-grid-column-two-thirds";
+            break;
+    }
+    
+    @if (color != "")
+    {
+        <section class="@color">
+                <gds-contentful-rich-text document="@Model.Content"/>
+        </section>
+    }
+    else
+    {
+        <section>
+            @if (Model.Width == ContentWidth.FullWidth)
+            {
+                <gds-contentful-rich-text document="@Model.Content"/>
+            }
+            else
+            {
+                <div class="@width">
+                    <gds-contentful-rich-text document="@Model.Content"/>
+                </div>
+            }
+        </section>
+    }
+}

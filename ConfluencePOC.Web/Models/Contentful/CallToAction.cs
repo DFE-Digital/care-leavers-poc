@@ -1,5 +1,6 @@
 
 using ConfluencePOC.Web.Enums;
+using ConfluencePOC.Web.Models.PageTypes;
 using Contentful.Core.Models;
 
 namespace ConfluencePOC.Web.Models.Contentful;
@@ -16,7 +17,7 @@ public class CallToAction : ContentfulContent
 
     public string? CallToActionText { get; set; }
     
-    public IContent? InternalDestination { get; set; }
+    public Page? InternalDestination { get; set; }
     
     public string? ExternalDestination { get; set; }
     

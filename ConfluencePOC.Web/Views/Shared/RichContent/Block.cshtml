@@ -1,0 +1,9 @@
+@model ConfluencePOC.Web.Models.Contentful.RichContentBlock
+
+ @if (Model.Entries != null)
+ {
+     foreach (var content in Model.Entries)
+     {
+         <partial name="RichContent/Content" model="@content"/>
+     }
+ }

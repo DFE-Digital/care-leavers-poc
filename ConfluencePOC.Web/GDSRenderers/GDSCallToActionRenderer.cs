@@ -9,12 +9,12 @@ namespace ConfluencePOC.Web.GDSRenderers;
 /// <summary>
 /// A renderer for a paragraph.
 /// </summary>
-public class GDSGridRenderer : RazorContentRenderer
+public class GDSCallToActionRenderer : RazorContentRenderer
 {
     private readonly ContentRendererCollection _rendererCollection;
 
 
-    public GDSGridRenderer(IRazorViewEngine razorViewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider, ContentRendererCollection rendererCollection) : base(razorViewEngine, tempDataProvider, serviceProvider)
+    public GDSCallToActionRenderer(IRazorViewEngine razorViewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider, ContentRendererCollection rendererCollection) : base(razorViewEngine, tempDataProvider, serviceProvider)
     {
         _rendererCollection = rendererCollection;
     }
@@ -31,12 +31,12 @@ public class GDSGridRenderer : RazorContentRenderer
             var structure = content as EntryStructure;
             if (structure.NodeType == "embedded-entry-block")
             {
-                if (structure.Data.Target is Grid)
+                if (structure.Data.Target is CallToAction)
                     return true;
             }
         }
 
-        return content is Grid;
+        return content is CallToAction;
     }
 
     public override string Render(IContent content)
@@ -53,16 +53,16 @@ public class GDSGridRenderer : RazorContentRenderer
     /// <returns>The p-tag as a string.</returns>
     public override Task<string> RenderAsync(IContent content)
     {
-        Grid? grid;
-        if (content is Grid)
+        CallToAction? block;
+        if (content is CallToAction)
         {
-            grid = content as Grid;
+            block = content as CallToAction;
         }
         else
         {
-            grid = (content as EntryStructure)?.Data.Target as Grid;
+            block = (content as EntryStructure)?.Data.Target as CallToAction;
         }
 
-        return RenderToString("Grid/Grid", grid);
+        return RenderToString("CallToAction/CallToAction", block);
     }
 }

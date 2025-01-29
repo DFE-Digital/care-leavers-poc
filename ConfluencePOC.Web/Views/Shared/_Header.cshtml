@@ -1,4 +1,4 @@
-@await Html.PartialAsync("Components/Banner/Default")
+@await Html.PartialAsync("Partials/Banner")
 <header class="dfe-header" role="banner">
     <div class="dfe-width-container dfe-header__container">
         <div class="dfe-header__logo">
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="dfe-width-container dfe-header__service-name">
-        <a href="/" class="dfe-header__link--service">Find support for leaving care</a>
+        <a href="/" class="dfe-header__link--service">@ViewBag.ServiceName</a>
     </div>
     @{ await Html.RenderPartialAsync("Navigation"); }
 </header>
