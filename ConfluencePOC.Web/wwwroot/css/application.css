@@ -6109,6 +6109,11 @@ a.dfe-header__link--service:focus {
   width: 100%;
   display: flex;
   margin: 0 auto;
+  background-color: #f3f2f1;
+}
+
+.split-panel--bg-white {
+  background-color: #fff;
 }
 
 .split-panel .govuk-grid-column-one-half.image-column {
@@ -6135,6 +6140,17 @@ a.dfe-header__link--service:focus {
   padding: 20px;
 }
 
+@media (max-width: 768px) {
+  .split-panel {
+    flex-direction: column;
+  }
+  .split-panel .govuk-grid-column-one-half {
+    width: 100%;
+  }
+  .split-panel .image-container {
+    height: 200px;
+  }
+}
 .x-govuk-related-navigation {
   color: #0b0c0c;
   border-top: 2px solid #1d70b8;

@@ -16,7 +16,6 @@
 
 @section BeforeGDSContent
 {
-    <div class="govuk-grid-row">
         <div class="@pageWidth">
 
            <h2 class="govuk-heading-xl">
@@ -27,9 +26,7 @@
               <gds-contentful-rich-text document="@Model.Header"/>
            }
         </div>
-    </div>
 }
-<div class="govuk-grid-row">
    <div class="@pageWidth">
       @if (Model.Type.HasValue)
       {
@@ -47,7 +44,6 @@
          <gds-contentful-rich-text document="@Model.SecondaryContent"/>
       </div>
    }
-</div>
 
 @if (Model.ShowLastUpdated)
 {
