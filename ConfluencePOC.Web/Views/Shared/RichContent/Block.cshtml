@@ -2,8 +2,11 @@
 
  @if (Model.Entries != null)
  {
-     foreach (var content in Model.Entries)
-     {
-         <partial name="RichContent/Content" model="@content"/>
-     }
+     <div class="govuk-grid-row">
+         @foreach (var content in Model.Entries)
+         {
+             <partial name="RichContent/Content" model="@content"/>
+         }
+     </div>
+             
  }

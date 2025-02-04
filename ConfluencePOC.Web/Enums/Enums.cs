@@ -32,7 +32,8 @@ public enum GridType
     [EnumMember(Value = "Alternating Image and Text")]
     AlternatingImageAndText,
     [EnumMember(Value = "External Links")]
-    ExternalLinks
+    ExternalLinks,
+    Banner
 }
 
 public enum HeadingType

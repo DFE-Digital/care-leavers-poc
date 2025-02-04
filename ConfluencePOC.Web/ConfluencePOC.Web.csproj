@@ -10,10 +10,10 @@
       <PackageReference Include="Azure.AI.Translation.Text" Version="1.0.0" />
       <PackageReference Include="contentful.aspnetcore" Version="8.3.0" />
       <PackageReference Include="Google.Cloud.Translation.V2" Version="3.4.0" />
-      <PackageReference Include="GovUk.Frontend.AspNetCore" Version="2.2.0" />
-      <PackageReference Include="HtmlAgilityPack" Version="1.11.70" />
+      <PackageReference Include="GovUk.Frontend.AspNetCore" Version="2.8.0" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
       <PackageReference Include="Joonasw.AspNetCore.SecurityHeaders" Version="5.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.10" />
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>
