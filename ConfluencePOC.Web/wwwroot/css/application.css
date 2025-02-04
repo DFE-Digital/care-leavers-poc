@@ -6467,11 +6467,6 @@ html {
   margin-inline: min(-1 * var(--m), var(--w) / 2 - 50cqw);
 }
 
-.govuk-grid-column-two-thirds .banner {
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
 .govuk-grid-column-two-thirds .banner .split-panel {
   background-color: #f3f2f1;
 }

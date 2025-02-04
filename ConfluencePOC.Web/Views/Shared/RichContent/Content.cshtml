@@ -24,23 +24,18 @@
     
     @if (color != "")
     {
-        <section class="@color">
+        <section class="dfe-section @color">
                 <gds-contentful-rich-text document="@Model.Content"/>
         </section>
     }
     else
     {
-        <section>
-            @if (Model.Width == ContentWidth.FullWidth)
-            {
+        <section class="dfe-section">
+            
+            <div class="@width">
                 <gds-contentful-rich-text document="@Model.Content"/>
-            }
-            else
-            {
-                <div class="@width">
-                    <gds-contentful-rich-text document="@Model.Content"/>
-                </div>
-            }
+            </div>
+            
         </section>
     }
 }
