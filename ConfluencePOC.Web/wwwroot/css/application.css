@@ -6140,6 +6140,11 @@ a.dfe-header__link--service:focus {
   padding: 20px;
 }
 
+@media (min-width: 768px) {
+  .alternating-image-text > div:nth-child(odd) .split-panel {
+    flex-direction: row-reverse;
+  }
+}
 @media (max-width: 768px) {
   .split-panel {
     flex-direction: column;
@@ -6454,12 +6459,28 @@ html {
 .banner {
   padding-top: 40px;
   padding-bottom: 30px;
-  background-color: #EAF5FF;
   margin-bottom: 30px;
+}
+
+.govuk-grid-column-full .banner {
+  background-color: #EAF5FF;
   margin-inline: min(-1 * var(--m), var(--w) / 2 - 50cqw);
 }
 
-.banner > .banner-content {
+.govuk-grid-column-two-thirds .banner {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.govuk-grid-column-two-thirds .banner .split-panel {
+  background-color: #f3f2f1;
+}
+
+.govuk-grid-column-full .banner .split-panel {
+  background-color: #ffffff;
+}
+
+.govuk-grid-column-full .banner > .banner-content {
   margin-inline: max(var(--m), 50cqw - var(--w) / 2);
 }
 

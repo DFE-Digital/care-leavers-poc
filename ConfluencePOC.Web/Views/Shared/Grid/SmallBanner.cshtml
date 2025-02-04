@@ -1,4 +1,3 @@
-@using ConfluencePOC.Web.Enums
 @model ConfluencePOC.Web.Models.Contentful.Card
 @{
     string? link = Model?.Link?.Slug ?? string.Empty;
@@ -11,7 +10,7 @@
             </a>
         </div>
         <div class="govuk-grid-column-one-half text-column">
-            <h3 class="govuk-heading-l"><a href="@link">@Model?.Title</a></h3>
+            <h3 class="govuk-heading-m"><a href="@link">@Model?.Title</a></h3>
             <p class="govuk-body">@Model?.Text</p>
             <p class="govuk-!-margin-bottom-0">
             </p>
