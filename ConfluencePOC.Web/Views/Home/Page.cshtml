@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = Model.Title;
 
-    string pageWidth = "govuk-grid-column-fullwidth";
+    string pageWidth = "govuk-grid-column-full";
 
     switch (Model.Width)
     {
@@ -16,17 +16,21 @@
 
 @section BeforeGDSContent
 {
-        <div class="@pageWidth">
 
-           <h2 class="govuk-heading-xl">
-              @Model.Title
-           </h2>
-           @if (Model.Header != null)
-           {
-              <gds-contentful-rich-text document="@Model.Header"/>
-           }
-        </div>
+   <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+         <h2 class="govuk-heading-xl">
+            @Model.Title
+         </h2>
+         @if (Model.Header != null)
+         {
+            <gds-contentful-rich-text document="@Model.Header"/>
+         }
+      </div>
+   </div>
+
 }
+<div class="govuk-grid-row">
    <div class="@pageWidth">
       @if (Model.Type.HasValue)
       {
@@ -44,16 +48,24 @@
          <gds-contentful-rich-text document="@Model.SecondaryContent"/>
       </div>
    }
-
+</div>
 @if (Model.ShowLastUpdated)
 {
-   <partial name="Partials/LastUpdated" model="@Model.Sys"/>
+   <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+         <partial name="Partials/LastUpdated" model="@Model.Sys"/>
+      </div>
+   </div>
 }
 
 @section AfterGDSContent
 {
    @if (Model.ShowFooter && ViewBag.Footer != null)
    {
-      <gds-contentful-rich-text document="@ViewBag.Footer"/>
+      <div class="govuk-grid-row">
+         <div class="govuk-grid-column-two-thirds">
+            <gds-contentful-rich-text document="@ViewBag.Footer"/>
+         </div>
+      </div>
    }
 }
